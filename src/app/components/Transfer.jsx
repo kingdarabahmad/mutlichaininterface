@@ -1,9 +1,24 @@
 'use client';
-import React from 'react'
+import React, { useContext } from 'react'
 import { Carousel } from 'flowbite-react';
 import Link from 'next/link';
+// import { appState } from '../context/store';
 
+import { appState } from '@/app/context/store';
 const Transfer = () => {
+  const{allChains,departureChain,setDepartureChain,destinationChain,setDestinationChain}=useContext(appState);
+  const handleChangeDeparture=(event)=>{
+    const {value}=event.target
+    setDepartureChain(value)  
+  }
+  console.log("departureChain:",departureChain)
+
+
+  const handleChangeDestination=(event)=>{
+    const {value}=event.target
+    setDestinationChain(value)
+  }
+  console.log("destinationChain",destinationChain)
   return (
     <div className="flex gap-4">
         {/* //div for crousel */}
@@ -20,28 +35,33 @@ const Transfer = () => {
           <h1 className="text-2xl mt-8 tracking-wider font-bold">Transfer NFTs Between Blockchain</h1>
           {/* //chain select section */}
           <div className='mt-6 flex flex-col'>
-            <select className='border-none bg-zinc-800 text-zinc-300 text-center px-4 py-4 rounded-t-2xl w-[300px]' name="Departure chain" id="">
+            <select className='border-none bg-zinc-800 text-zinc-300 text-center px-4 py-4 rounded-t-2xl w-[300px]' name="Departure chain" value={departureChain} onChange={handleChangeDeparture}>
               <option value="near">Select Departure chain</option>
-              <option value="secret">Secret</option>
-              <option value="solana">Solana</option>
-              <option value="ethereum">Ethereum</option>
-              <option value="moonbeam">Moonbeam</option>
+              {allChains.map((item)=>(
+                <option value={item.chainName}>{item.chainName}</option>
+              ))}
             </select>
 
             {/* //destination chain */}
-            <select className='border-none mt-1 bg-zinc-800 text-zinc-300 text-center px-4 py-4 rounded-b-2xl w-[300px]' name="Departure chain" id="">
+            <select className='border-none mt-1 bg-zinc-800 text-zinc-300 text-center px-4 py-4 rounded-b-2xl w-[300px]' name="Departure chain" value={destinationChain} onChange={handleChangeDestination}>
               <option value="near">Select Destination chain</option>
-              <option value="secret">Secret</option>
-              <option value="solana">Solana</option>
-              <option value="ethereum">Ethereum</option>
-              <option value="moonbeam">Moonbeam</option>
+              { allChains.map((item)=>(
+                <option value={item.chainName}>{item.chainName}</option>
+              ))}
 
             </select>
           </div>
 
           {/* //Transfer button */}
           <Link href={"/yournft"}>
-            <button className='border mt-10 border-pink-500 rounded-3xl px-8 py-3 hover:bg-pink-600'>Continue Transfer</button>
+            {
+            departureChain===destinationChain?(
+              <h1 className='text-sm text-pink-600 mt-10'>Departure and Destination Chain Cant Be Equal</h1>
+            ):(
+              <button className='border mt-10 border-pink-500 rounded-3xl px-8 py-3 hover:bg-pink-600'>Continue Transfer</button>
+            )
+            }
+            
           </Link>
         </div>
       </div>
