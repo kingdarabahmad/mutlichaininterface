@@ -11,7 +11,7 @@ const Transfer = () => {
     const {value}=event.target
     setDepartureChain(value)  
   }
-  console.log("departureChain:",departureChain)
+  console.log("departureChain",departureChain)
 
 
   const handleChangeDestination=(event)=>{
@@ -53,7 +53,7 @@ const Transfer = () => {
           </div>
 
           {/* //Transfer button */}
-          <Link href={"/yournft"}>
+          <Link href={`/yournft?departureChain=${departureChain}&destinationChain=${destinationChain}`}>
             {
             departureChain===destinationChain?(
               <h1 className='text-sm text-pink-600 mt-10'>Departure and Destination Chain Cant Be Equal</h1>
